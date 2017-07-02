@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>cookie操作登陆页面</title>
+</head>
+<body>
+	<div id="box1">
+		用户名：<input type="text" name="" id="username"><br>
+		密码：<input type="password" name="" id="userpass"><br>
+		<button id="dl">登陆</button>
+	</div>
+	
+	<div id="box2">
+		<h1 id="text"></h1>
+		<button id="tc">退出当前账号</button>
+	</div>
+	
+	<script>
+		box2.style.display = 'none';
+		//登陆
+		dl.onclick = function(){
+
+			//设置有效时间
+			var expReadyDay = 1;
+			var date = new Date();
+
+			//当前时间加上有效期换成毫秒
+			date.setTime(date.getTime()+expReadyDay*24*60*60*1000);
+
+			//用户名密码
+			if(username.value!=''&&userpass.value!=''){
+				document.cookie = 'ursename=' + username.value + ';expires=' + date.toUTCString();
+				document.cookie = 'password=' + userpass.value + ';expires=' + date.toUTCString();
+
+				text.innerHTML = '欢迎回来   '+username.value;
+				box2.style.display = 'block';
+				box1.style.display = 'none';
+
+			}else{
+				alert('用户名或密码不能为空');
+			}
+			console.log(document.cookie);
+		}
+
+		//退出登陆
+
+		tc.onclick = function(){
+			var date = new Date();
+			//当前时间减去有效期换成毫秒
+			var expReadyDay = 1;
+
+			date.setTime(date.getTime()-expReadyDay*24*60*60*1000);
+			document.cookie = 'ursename=' + username.value + ';expires=' + date.toUTCString();
+			document.cookie = 'password=' + userpass.value + ';expires=' + date.toUTCString();
+
+			username.value = '';
+			userpass.value = '';
+			box2.style.display = 'none';
+			box1.style.display = 'block';
+			console.log(document.cookie);
+		}
+	</script>
+</body>
+</html>
